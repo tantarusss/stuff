@@ -1,41 +1,45 @@
-
 Übersicht zu Arrays und Lists (Vergleichen) 
 # Array
 fixed-size; Supported Primitives und Non-Primitives
 ```java
-int\[] arr = new int\[3];
-arr\[0] = 1;
-arr\[1] = 2;
-arr\[2] = 3;
+int[] arr = new int[3];
+arr[0] = 1;
+arr[1] = 2;
+arr[2] = 3;
 
 System.out.println(Arrays.toString(arr));
 ```
 
 # ArrayList
-non fixed-size (man kann Elemente hinzufügen); Supported keine Primitives
+non fixed-size (man kann Elemente hinzufügen und entfernen); Supported keine Primitives
+Man greift mit Functions darauf zu (nicht mit \[index])
 
 ```java
-ArrayList\<Integer> arrL = new ArrayList\<Integer>();
+from java.utils import ArrayList;
 
-arrL.add\(1);
-arrL.add\(2);
-arrL.add\(3);
+ArrayList<Integer> arrL = new ArrayList<>();
+//== List<Integer> arrL = new ArrayList<>();
+
+arrL.add(1);
+arrL.add(2);
+arrL.add(3);
 
 System.out.println(arrL);
 ```
-# 
 # Durch Array iteraten
 ## for Loop
+Nutzen, wenn der Index relevant ist
 ```java
 public static void main() {
 		int numbers[] = {10, 20, 30, 40, 50}
 
-		for (int i = 0; i <= numbers.length; i++) {
+		for (int i = 0; i < numbers.length; i++) {
 			System.out.println(numbers[i]);
 		}
 	}
 ```
 ## for-each Loop
+Nutzen, wenn der Index nicht relevant ist
 ```java
 public static void main() {
 		int numbers[] = {10, 20, 30, 40, 50};
