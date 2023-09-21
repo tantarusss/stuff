@@ -3,18 +3,15 @@ import java.util.Arrays;
 
 public class WordTask {
     public static void main(String[] args) {
-        /*System.out.println(Arrays.toString(wordReversal(splitIntoWords(args[0])
-                        )
-                )
-        );*/
+//        System.out.println(Arrays.toString(wordReversal(splitIntoWords(args[0]))));
 
         //System.out.println(findTheWord(splitIntoWords(args[0]), Integer.parseInt(args[1])));
 
         //System.out.println(wordSearch(splitIntoWords(args[0]), args[1]));
 
-        System.out.println(wordSearchAdvanced(splitIntoWords(args[0]), args[1]));
+        //System.out.println(wordSearchAdvanced(splitIntoWords(args[0]), args[1]));
 
-        //anagrams(args[0], args[1]);
+        anagrams(args[0], args[1]);
     }
 
     static boolean isSpace(char inputChar) {
@@ -108,33 +105,48 @@ public class WordTask {
     static int wordSearchAdvanced(String[] sentenceSearch, String wordSearch) {
         int timesWordAppears = 0;
         char[] wordSearchArray = wordSearch.toCharArray();
-        int correctChar;
+        int correctChar = 0;
         for (int i = 0; i < sentenceSearch.length; i++) {
-            correctChar = 0;
             char[] wordInSentence = sentenceSearch[i].toCharArray();
             int lengthDiff = wordInSentence.length - wordSearchArray.length;
-
             //check if search word is longer than word in sentence word
             if (lengthDiff >= 0) {
-                //loop through # of times search word fits in sentence word
-                for (int j = 0; j < lengthDiff; j++) {
+                //loop through # of times search word fits in sentence word, starting at different indexes
+                for (int j = 0; j <= lengthDiff; j++) {
+                    correctChar = 0;
                     //match search word against sentence word
                     for (int k = 0; k < wordSearchArray.length; k++) {
-                        if (wordSearchArray[k] == wordInSentence[k + lengthDiff]) {
+                        if (wordSearchArray[k] == wordInSentence[k + j]) {
                             correctChar++;
                         }
+                    }
+                    if (correctChar == wordSearchArray.length) {
+                        timesWordAppears++;
                     }
                 }
             }
 
-            if (correctChar == wordSearchArray.length) {
-                timesWordAppears++;
-            }
         }
         return timesWordAppears;
     }
     
-    static void anagrams(String wordAna1, String wordAna2) {
+    static boolean anagrams(String word1, String word2) {
+        if (word1.length() != word2.length()) {
+            return false;
+        }
+        char[] word1Arr = new char[word1.length()];
+        char[] word2Arr = new char[word2.length()];
+        char[] word1ArrSorted = new char[word1Arr.length];
+        char[] word2ArrSorted = new char[word2Arr.length];
 
+        for (int i = 0; i < word1Arr.length; i++) {
+            
+        }
+
+        if (word1ArrSorted == word2ArrSorted) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
