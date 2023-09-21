@@ -11,7 +11,9 @@ public class WordTask {
 
         //System.out.println(wordSearchAdvanced(splitIntoWords(args[0]), args[1]));
 
-        anagrams(args[0], args[1]);
+
+
+        System.out.println(anagrams(args[0], args[1]));
     }
 
     static boolean isSpace(char inputChar) {
@@ -91,7 +93,7 @@ public class WordTask {
     }
 
     static String findTheWord(String[] wordFind, int wordFindIndex) {
-        return wordFind[wordFind.length - 2] + " " + wordFind[wordFindIndex + 1];
+        return wordFind[wordFind.length - 2] + " " + wordFind[wordFindIndex - 1];
     }
 
     static boolean wordSearch(String[] sentenceSearch, String wordSearch) {
@@ -125,7 +127,6 @@ public class WordTask {
                     }
                 }
             }
-
         }
         return timesWordAppears;
     }
@@ -134,19 +135,27 @@ public class WordTask {
         if (word1.length() != word2.length()) {
             return false;
         }
-        char[] word1Arr = new char[word1.length()];
-        char[] word2Arr = new char[word2.length()];
-        char[] word1ArrSorted = new char[word1Arr.length];
-        char[] word2ArrSorted = new char[word2Arr.length];
+        char[] word1Arr = word1.toCharArray();
+        char[] word2ArrRem;
+        int elementsToRemove = 0;
+        int indexToRemove = -1;
 
         for (int i = 0; i < word1Arr.length; i++) {
-            
-        }
+            word2ArrRem = new char[word1Arr.length - elementsToRemove];
+            //copy values
+            for (int z = 0; z < word2ArrRem.length; z++) {
+                word2ArrRem[z] = word1Arr[z];
+            }
 
-        if (word1ArrSorted == word2ArrSorted) {
-            return true;
-        } else {
-            return false;
+                for (int j = 0; j < word2ArrRem.length; j++) {
+                    if (Character.toLowerCase(word1Arr[i]) == Character.toLowerCase(word2ArrRem[j])) {
+                        elementsToRemove++;
+                        indexToRemove = j;
+                    } else {
+                        return false;
+                    }
+                }
         }
+        return true;
     }
 }
