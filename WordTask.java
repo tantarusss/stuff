@@ -136,26 +136,24 @@ public class WordTask {
             return false;
         }
         char[] word1Arr = word1.toCharArray();
-        char[] word2ArrRem;
-        int elementsToRemove = 0;
-        int indexToRemove = -1;
+        char[] word2Arr = word2.toCharArray();
+        ArrayList<Character> word2ArrList = new ArrayList<>();
+
+        for (char element : word2Arr) {
+            word2ArrList.add(element);
+        }
 
         for (int i = 0; i < word1Arr.length; i++) {
-            word2ArrRem = new char[word1Arr.length - elementsToRemove];
-            //copy values
-            for (int z = 0; z < word2ArrRem.length; z++) {
-                word2ArrRem[z] = word1Arr[z];
-            }
-
-                for (int j = 0; j < word2ArrRem.length; j++) {
-                    if (Character.toLowerCase(word1Arr[i]) == Character.toLowerCase(word2ArrRem[j])) {
-                        elementsToRemove++;
-                        indexToRemove = j;
-                    } else {
-                        return false;
+                for (int j = 0; j < word2ArrList.size(); j++) {
+                    if (Character.toLowerCase(word2ArrList.get(j)) == (Character.toLowerCase(word1Arr[i]))) {
+                        word2ArrList.remove(j);
                     }
                 }
         }
-        return true;
+        if (word2ArrList.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
