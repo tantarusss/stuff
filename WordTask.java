@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class WordTask {
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(wordReversal(splitIntoWords(args[0]))));
+        //System.out.println(Arrays.toString(wordReversal(splitIntoWords(args[0]))));
 
         //System.out.println(findTheWord(splitIntoWords(args[0]), Integer.parseInt(args[1])));
 
@@ -40,6 +40,8 @@ public class WordTask {
 //        productMaximizerArr(new int[]{40, 20, 3, 6, 23}, new int[] {18, 21, 5, 7, 3});
 
         //System.out.println(Arrays.toString(primeFactorization(Integer.parseInt(args[0]))));
+
+        anagramGroups(args);
     }
 
     static char[] extractNumReversed (int input) {
@@ -63,19 +65,11 @@ public class WordTask {
     }
 
     static boolean isSpace(char inputChar) {
-        if (inputChar == ' ') {
-            return true;
-        } else {
-            return false;
-        }
+        return (inputChar == ' ');
     }
 
     static boolean isPunct(char inputChar) {
-        if (inputChar == '!' || inputChar == '?' || inputChar == ',' || inputChar == ';' || inputChar == '.') {
-            return true;
-        } else {
-            return false;
-        }
+        return (inputChar == '!' || inputChar == '?' || inputChar == ',' || inputChar == ';' || inputChar == '.' || inputChar == ':');
     }
 
     static boolean isPunct(String inputStr) {
@@ -139,13 +133,18 @@ public class WordTask {
     static String[] wordReversal(String[] input) {
         String[] inputArrayRev = new String[input.length];
         ArrayList<String> onlyWordsArrayList = new ArrayList<>();
+        ArrayList<String> onlyPunctArrayList = new ArrayList<>();
+        ArrayList<Integer> onlyPunctIndexArrayList = new ArrayList<>();
+        ArrayList<String> finalArrayList = new ArrayList<>();
 
-        //separate words from punctuation characters
+        //separate words from punctuation characters and their indexes in original array
         for (int i = 0; i < input.length; i++) {
             if (!isPunct(input[i])) {
                 onlyWordsArrayList.add(input[i]);
                 continue;
             } else if (isPunct(input[i])) {
+                onlyPunctArrayList.add(input[i]);
+                onlyPunctIndexArrayList.add(i);
                 continue;
             }
 
@@ -157,11 +156,37 @@ public class WordTask {
             onlyWordsArrayRev[i] = onlyWordsArrayList.get(onlyWordsArrayList.size() - 1 - i);
         }
 
-        onlyWordsArrayRev[0].toCharArray()[0] = Character.toUpperCase(onlyWordsArrayRev[0].toCharArray()[0]);
+        int[] onlyPunctIndexArray = new int[onlyPunctIndexArrayList.size()];
+        for (int i = 0; i < onlyPunctIndexArrayList.size(); i++) {
+            onlyPunctIndexArray[i] = onlyPunctIndexArrayList.get(i);
+        }
 
-        System.out.println(Arrays.toString(onlyWordsArrayRev));
+        String[] onlyPunctArray = new String[onlyPunctIndexArrayList.size()];
+        for (int i = 0; i < onlyPunctIndexArrayList.size(); i++) {
+            onlyPunctArray[i] = onlyPunctArrayList.get(i);
+        }
 
-        return onlyWordsArrayRev;
+        for (int i = 0; i < onlyWordsArrayList.size() + onlyPunctArrayList.size(); i++){
+            for (int j = 0; j < onlyPunctIndexArray.length; j++) {
+                if (i == onlyPunctIndexArray[j]) {
+                    finalArrayList.add(onlyPunctArray[j]);
+                } else {
+                    finalArrayList.add(onlyWordsArrayRev[i]);
+                }
+            }
+//            System.out.println(finalArrayList.get(i));
+        }
+
+        String[] finalArray = new String[finalArrayList.size()];
+        for (int i = 0; i < finalArray.length; i++) {
+            finalArray[i] = finalArrayList.get(i);
+        }
+
+        System.out.println(Arrays.toString(onlyPunctArray));
+        System.out.println(Arrays.toString(onlyPunctIndexArray));
+        System.out.println(Arrays.toString(finalArray));
+
+        return finalArray;
     }
 
     //2 & 2.5
@@ -210,6 +235,7 @@ public class WordTask {
         char[] word1Arr = word1.toCharArray();
         char[] word2Arr = word2.toCharArray();
         ArrayList<Character> word2ArrList = new ArrayList<>();
+        ArrayList<Character> savedCharacters = new ArrayList<>();
 
         for (char element : word2Arr) {
             word2ArrList.add(element);
@@ -218,11 +244,24 @@ public class WordTask {
         for (int i = 0; i < word1Arr.length; i++) {
             for (int j = 0; j < word2ArrList.size(); j++) {
                 if (Character.toLowerCase(word2ArrList.get(j)) == (Character.toLowerCase(word1Arr[i]))) {
+                    savedCharacters.add(word2ArrList.get(j));
                     word2ArrList.remove(j);
                 }
             }
         }
         return word2ArrList.isEmpty();
+    }
+
+    static void anagramGroups(String[] inputArray) {
+        
+        char[][] inputCharArray = new char[inputArray.length][];
+        
+        for (int i = 0; i < inputCharArray.length; i++) {
+            for (int j = 0; j < inputArray[i].length(); j++){
+                inputCharArray[i][j] = inputArray[i].toCharArray()[j];
+            }
+        }
+        System.out.println(inputCharArray.toString());
     }
 
     //5
