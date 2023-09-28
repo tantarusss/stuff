@@ -4,7 +4,12 @@ import java.util.Arrays;
 
 public class WordTask {
     public static void main(String[] args) {
-        //System.out.println(Arrays.toString(wordReversal(splitIntoWords(args[0]))));
+
+        /*for (String element : wordReversal(splitIntoWords(args[0]))) {
+            System.out.print(element + " ");
+        }*/
+
+        System.out.println(String.valueOf(numberReversalAdvanced(Double.parseDouble(args[0]))));
 
         //System.out.println(findTheWord(splitIntoWords(args[0]), Integer.parseInt(args[1])));
 
@@ -41,7 +46,11 @@ public class WordTask {
 
         //System.out.println(Arrays.toString(primeFactorization(Integer.parseInt(args[0]))));
 
-        anagramGroups(args);
+        //anagramGroups(args);
+
+        //primeFactorizationReal(Integer.parseInt(args[0]));
+
+        //adventOfCodeDay1();
     }
 
     static char[] extractNumReversed (int input) {
@@ -129,9 +138,8 @@ public class WordTask {
         return charArr;
     }
 
-    //1
+    //1 & 1.5?
     static String[] wordReversal(String[] input) {
-        String[] inputArrayRev = new String[input.length];
         ArrayList<String> onlyWordsArrayList = new ArrayList<>();
         ArrayList<String> onlyPunctArrayList = new ArrayList<>();
         ArrayList<Integer> onlyPunctIndexArrayList = new ArrayList<>();
@@ -147,8 +155,6 @@ public class WordTask {
                 onlyPunctIndexArrayList.add(i);
                 continue;
             }
-
-            inputArrayRev[i] = input[input.length - 1 - i];
         }
         //separate words from punctuation elements to reverse
         String[] onlyWordsArrayRev = new String[onlyWordsArrayList.size()];
@@ -166,21 +172,38 @@ public class WordTask {
             onlyPunctArray[i] = onlyPunctArrayList.get(i);
         }
 
-        for (int i = 0; i < onlyWordsArrayList.size() + onlyPunctArrayList.size(); i++){
+        int numOfPunct = 0;
+        int finalSize = onlyWordsArrayList.size() + onlyPunctArrayList.size();
+
+
+        for (int i = 0; i < finalSize; i++){
+            boolean punctAdded = false;
             for (int j = 0; j < onlyPunctIndexArray.length; j++) {
                 if (i == onlyPunctIndexArray[j]) {
                     finalArrayList.add(onlyPunctArray[j]);
-                } else {
-                    finalArrayList.add(onlyWordsArrayRev[i]);
+                    numOfPunct++;
+                    punctAdded = true;
                 }
             }
-//            System.out.println(finalArrayList.get(i));
+            int indexInWordArr = i - numOfPunct;
+            if (!punctAdded) {
+                finalArrayList.add(onlyWordsArrayRev[indexInWordArr]);
+            }
+            //System.out.println(finalArrayList.get(i));
         }
 
         String[] finalArray = new String[finalArrayList.size()];
         for (int i = 0; i < finalArray.length; i++) {
             finalArray[i] = finalArrayList.get(i);
         }
+
+
+        char[] firstWord = finalArray[0].toCharArray();
+        char firstLetterInSentence = firstWord[0];
+        char firstLetterUpper = Character.toUpperCase(firstLetterInSentence);
+        firstWord[0] = firstLetterUpper;
+
+        finalArray[0] = String.valueOf(firstWord);
 
         System.out.println(Arrays.toString(onlyPunctArray));
         System.out.println(Arrays.toString(onlyPunctIndexArray));
@@ -235,7 +258,6 @@ public class WordTask {
         char[] word1Arr = word1.toCharArray();
         char[] word2Arr = word2.toCharArray();
         ArrayList<Character> word2ArrList = new ArrayList<>();
-        ArrayList<Character> savedCharacters = new ArrayList<>();
 
         for (char element : word2Arr) {
             word2ArrList.add(element);
@@ -244,7 +266,6 @@ public class WordTask {
         for (int i = 0; i < word1Arr.length; i++) {
             for (int j = 0; j < word2ArrList.size(); j++) {
                 if (Character.toLowerCase(word2ArrList.get(j)) == (Character.toLowerCase(word1Arr[i]))) {
-                    savedCharacters.add(word2ArrList.get(j));
                     word2ArrList.remove(j);
                 }
             }
@@ -252,16 +273,23 @@ public class WordTask {
         return word2ArrList.isEmpty();
     }
 
-    static void anagramGroups(String[] inputArray) {
-        
-        char[][] inputCharArray = new char[inputArray.length][];
-        
-        for (int i = 0; i < inputCharArray.length; i++) {
-            for (int j = 0; j < inputArray[i].length(); j++){
-                inputCharArray[i][j] = inputArray[i].toCharArray()[j];
-            }
+    //4.5
+    static void anagramGroups(String[] input) {
+        ArrayList<String> inputArrList = new ArrayList<>();
+        for (String element : input) {
+            inputArrList.add(element);
         }
-        System.out.println(inputCharArray.toString());
+
+        for (int i = 0; i < inputArrList.size(); i++) {
+            System.out.print(inputArrList.get(i) + " ");
+            for (int j = i + 1; j < inputArrList.size(); j++) {
+                if (anagrams(inputArrList.get(i), inputArrList.get(j))) {
+                    System.out.print(inputArrList.get(j) + " ");
+                    inputArrList.remove(j);
+                }
+            }
+            System.out.println();
+        }
     }
 
     //5
@@ -290,6 +318,36 @@ public class WordTask {
     static int numberReversal(int inputNumber) {
         char[] numCharArr = extractNumReversed(inputNumber);
         return Integer.parseInt(String.valueOf(numCharArr));
+    }
+
+    static double numberReversalAdvanced(double input) {
+        double number = input;
+        double finalNum;
+        char[] inputChars = String.valueOf(input).toCharArray();
+        int decimalDigitsCount = 0;
+        boolean decimalPointReached = false;
+
+        for (int i = 0; i < inputChars.length; i++) {
+            if (decimalPointReached) {
+                decimalDigitsCount++;
+            }
+
+            if (inputChars[i] == '.') {
+                decimalPointReached = true;
+            }
+        }
+
+        for (int i = 0; i < decimalDigitsCount; i++) {
+            number *= 10;
+        }
+
+        finalNum = Integer.parseInt(String.valueOf(extractNumReversed((int) number)));
+        for (int i = 0; i < decimalDigitsCount; i++) {
+            finalNum /= 10;
+        }
+
+        String finalNumStr = Double.toString(finalNum);
+        return finalNum;
     }
 
     //7
@@ -394,22 +452,54 @@ public class WordTask {
     }
 
     //10 & 10.5
-    static int[] primeFactorization(int inputNum) {
-        ArrayList<Integer> primeArrList = new ArrayList<>();
-        //divide by 2 to safe resources
-        for (int i = 1; i <= inputNum / 2; i++) {
-            if (inputNum % i == 0) {
-                System.out.println(i);
-                if (primeChecker(i)) {
-                    primeArrList.add(i);
-                }
+    static void primeFactorizationReal(int input) {
+        int numToCheck = input;
+        for (int i = 2; i <= numToCheck; i++) {
+            while (numToCheck % i == 0) {
+                System.out.print(i + " ");
+                numToCheck /= i;
             }
         }
-        int[] primeArr = new int[primeArrList.size()];
-        for (int i = 0; i < primeArr.length; i++) {
-            primeArr[i] = primeArrList.get(i);
+    }
+
+    static void adventOfCodeDay1() {
+        String input =  "1000\n" +
+                        "2000\n" +
+                        "3000\n" +
+                        "\n" +
+                        "1000\n" +
+                        "\n" +
+                        "5000\n" +
+                        "6000\n" +
+                        "\n" +
+                        "7000\n" +
+                        "8000\n" +
+                        "9000\n" +
+                        "\n" +
+                        "10000";
+        String[] inputToArr = input.split("\\n");
+        //System.out.println(Arrays.toString(inputToArr));
+        int mostCalories = 0;
+        int currentCalories = 0;
+        int currentElf = 1;
+        int maxElf = 1;
+
+        for (int i = 0; i < inputToArr.length; i++) {
+            if (!(inputToArr[i].isEmpty())) {
+                //System.out.println(Integer.parseInt(inputToArr[i]));
+                currentCalories += Integer.parseInt(inputToArr[i]);
+            } else {
+                //System.out.println("Is Empty");
+                currentCalories = 0;
+                currentElf++;
+                continue;
+            }
+            if (currentCalories > mostCalories) {
+                mostCalories = currentCalories;
+                maxElf = currentElf;
+            }
         }
 
-        return primeArr;
+        System.out.println("Elf number " + maxElf + " has the most calories with " + mostCalories + " calories");
     }
 }
