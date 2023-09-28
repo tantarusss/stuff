@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class AdventOfCode {
     public static void main(String[] args) {
-        adventOfCodeDay2();
+        adventOfCodeDay3();
     }
 
     static String[] halveString(String input) {
@@ -78,7 +78,7 @@ public class AdventOfCode {
         System.out.println("Elf number " + maxElf + " has the most calories with " + mostCalories + " calories");
     }
 
-    static void adventOfCodeDay2() {
+    static void adventOfCodeDay3() {
         String input =  "vJrwpWtwJgWrhcsFMMfFFhFp\n" +
                         "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL\n" +
                         "PmmdzqPrVvPwwTWBwg\n" +
