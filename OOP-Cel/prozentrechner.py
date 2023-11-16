@@ -1,4 +1,9 @@
 def checkFirstInput(userInput:str):
+    try:
+        if userInput[-3] != ".":
+            raise ValueError
+    except:
+        raise ValueError(f"{userInput} ist kein gültiger Betrag im Format 'XXX.YY'")
     try: 
         return float(userInput)
     except:
