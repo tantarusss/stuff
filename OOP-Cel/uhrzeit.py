@@ -41,13 +41,13 @@ class Uhrzeit:
     
     def dec(self):
         self.seconds -= 1
-        if self.seconds <= 0:
+        if self.seconds < 0:
             self.seconds = 59
             self.minutes -= 1
-        if self.minutes <= 0:
+        if self.minutes < 0:
             self.minutes = 59
             self.hours -= 1
-        if self.hours <= 0:
+        if self.hours < 0:
             self.hours = 23
             self.minutes = 59
             self.seconds = 59
