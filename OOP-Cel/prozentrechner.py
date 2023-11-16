@@ -13,9 +13,9 @@ def checkInput(userInput:str, betrag):
     else:
         try:
             (operator, aufschlag) = (userInput[0], userInput[1:])
-            if operator == "+":
+            if operator == "+" and 1 <= int(aufschlag) <= 100:
                 return betrag + betrag * (int(aufschlag) * 0.01)
-            elif operator == "-":
+            elif operator == "-" and 1 <= int(aufschlag) <= 100:
                 return betrag - betrag * (int(aufschlag) * 0.01)
             else:
                 raise ValueError
